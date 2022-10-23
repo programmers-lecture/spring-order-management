@@ -4,11 +4,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.Date;
 
 public final class Jwt {
@@ -68,52 +66,6 @@ public final class Jwt {
 
     public JWTVerifier getJwtVerifier() {
         return jwtVerifier;
-    }
-
-    static public class Claims {
-        Long userKey;
-        String name;
-        String[] roles;
-        Date iat;
-        Date exp;
-
-        private Claims() {/*empty*/}
-
-        Claims(DecodedJWT decodedJWT) {
-            Claim userKey = decodedJWT.getClaim("userKey");
-            if (!userKey.isNull()) {
-                this.userKey = userKey.asLong();
-            }
-            Claim name = decodedJWT.getClaim("name");
-            if (!name.isNull()) {
-                this.name = name.asString();
-            }
-            Claim roles = decodedJWT.getClaim("roles");
-            if (!roles.isNull()) {
-                this.roles = roles.asArray(String.class);
-            }
-            this.iat = decodedJWT.getIssuedAt();
-            this.exp = decodedJWT.getExpiresAt();
-        }
-
-        public static Claims of(long userKey, String name, String[] roles) {
-            Claims claims = new Claims();
-            claims.userKey = userKey;
-            claims.name = name;
-            claims.roles = roles;
-            return claims;
-        }
-
-        @Override
-        public String toString() {
-            return "Claims{" +
-                    "userKey=" + userKey +
-                    ", name='" + name + '\'' +
-                    ", roles=" + Arrays.toString(roles) +
-                    ", iat=" + iat +
-                    ", exp=" + exp +
-                    '}';
-        }
     }
 
 }

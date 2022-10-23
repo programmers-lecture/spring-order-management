@@ -52,14 +52,14 @@ public class JwtAuthenticationTokenFilter extends GenericFilterBean {
             String authorizationToken = obtainAuthorizationToken(request);
             if (authorizationToken != null) {
                 try {
-                    Jwt.Claims claims = verify(authorizationToken);
+                    Claims claims = verify(authorizationToken);
                     log.debug("Jwt parse result: {}", claims);
 
                     Long userKey = claims.userKey;
                     String name = claims.name;
                     List<GrantedAuthority> authorities = obtainAuthorities(claims);
 
-                    if (nonNull(userKey) && isNotEmpty(name) && authorities.size() > 0) {
+                    if (nonNull(userKey) && isNotEmpty(name) && !authorities.isEmpty()) {
                         JwtAuthenticationToken authentication =
                                 new JwtAuthenticationToken(new JwtAuthentication(userKey, name), null, authorities);
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -77,7 +77,7 @@ public class JwtAuthenticationTokenFilter extends GenericFilterBean {
         chain.doFilter(request, response);
     }
 
-    private List<GrantedAuthority> obtainAuthorities(Jwt.Claims claims) {
+    private List<GrantedAuthority> obtainAuthorities(Claims claims) {
         String[] roles = claims.roles;
 
         if (roles == null || roles.length == 0) {
@@ -106,7 +106,7 @@ public class JwtAuthenticationTokenFilter extends GenericFilterBean {
         return null;
     }
 
-    private Jwt.Claims verify(String token) {
+    private Claims verify(String token) {
         return jwt.verify(token);
     }
 

@@ -2,6 +2,7 @@ package prgms.lecture.order_management.user.domain;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
+import prgms.lecture.order_management.security.Claims;
 import prgms.lecture.order_management.security.Jwt;
 
 import javax.persistence.*;
@@ -61,7 +62,7 @@ public class User {
     }
 
     public String newJwt(Jwt jwt, String[] roles) {
-        Jwt.Claims claims = Jwt.Claims.of(seq, name, roles);
+        Claims claims = Claims.of(seq, name, roles);
         return jwt.create(claims);
     }
 
