@@ -17,14 +17,14 @@ public class Claims {
 
     Claims(DecodedJWT decodedJWT) {
         Claim userKey = decodedJWT.getClaim("userKey");
+        Claim name = decodedJWT.getClaim("name");
+        Claim roles = decodedJWT.getClaim("roles");
         if (!userKey.isNull()) {
             this.userKey = userKey.asLong();
         }
-        Claim name = decodedJWT.getClaim("name");
         if (!name.isNull()) {
             this.name = name.asString();
         }
-        Claim roles = decodedJWT.getClaim("roles");
         if (!roles.isNull()) {
             this.roles = roles.asArray(String.class);
         }

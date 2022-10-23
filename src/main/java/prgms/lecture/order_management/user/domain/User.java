@@ -14,6 +14,7 @@ import static java.time.LocalDateTime.now;
 import static java.util.Optional.ofNullable;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -37,7 +38,7 @@ public class User {
     protected User() {
     }
 
-    public User(Long seq, String name, Email email, String password, int loginCount, LocalDateTime lastLoginAt, LocalDateTime createAt) {
+    public User(Long seq, String name, Email email, String password, int loginCount, LocalDateTime lastLoginAt) {
         checkName(name);
         Assert.notNull(email, "email must be provided");
         Assert.notNull(password, "password must be provided");
@@ -85,24 +86,8 @@ public class User {
         return name;
     }
 
-    public Email getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public int getLoginCount() {
-        return loginCount;
-    }
-
     public Optional<LocalDateTime> getLastLoginAt() {
         return ofNullable(lastLoginAt);
-    }
-
-    public LocalDateTime getCreateAt() {
-        return createAt;
     }
 
     @Override
